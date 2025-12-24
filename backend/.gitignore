@@ -1,0 +1,53 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ===== Virtual Environment =====
+myvenv/
+venv/
+env/
+.venv/
+
+# ===== Environment & Secrets =====
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.crt
+
+# ===== MongoDB / DB =====
+*.sqlite3
+*.db
+
+# ===== Logs =====
+*.log
+
+# ===== VS Code / IDE =====
+.vscode/
+.idea/
+*.iml
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
+
+# ===== Node / React (if frontend inside same repo) =====
+node_modules/
+dist/
+build/
+
+# ===== Pytest / Coverage =====
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
