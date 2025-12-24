@@ -34,6 +34,11 @@ async def login(user: UserLogin):
     access = create_access_token({"sub": db_user["email"]})
     refresh = create_refresh_token({"sub": db_user["email"]})
 
+    await db.refresh_tokens.insert_one({
+        "token": refresh,
+        "email": db_user["email"]
+    })
+
     return {
         "access_token": access,
         "refresh_token": refresh
@@ -41,12 +46,20 @@ async def login(user: UserLogin):
 
 @router.post("/refresh")
 async def refresh(refresh_token: str):
+    record = await db.refresh_tokens.find_one({"token": refresh_token})
+    if not record:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+
     try:
         payload = jwt.decode(refresh_token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         email = payload["sub"]
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid refresh")
 
-    return {
-        "access_token": create_access_token({"sub": email})
-    }
+    new_access = create_access_token({"sub": email})
+    return {"access_token": new_access}
+
+@router.post("/logout")
+async def logout(refresh_token: str):
+    await db.refresh_tokens.delete_one({"token": refresh_token})
+    return {"message": "Logged out"}
