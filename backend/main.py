@@ -6,13 +6,16 @@ from app.core.config import settings
 from app.routes.auth import router as auth_router
 from app.database import db
 from app.routes.tasks import router as task_router
+from app.routes.admin import router as admin_router
+
 
 app = FastAPI(title="Fynd API")
 
 #  All auth routes will be under /auth
 app.include_router(auth_router, prefix="/auth")
-
 app.include_router(task_router)
+app.include_router(admin_router)
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
