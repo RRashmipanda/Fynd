@@ -16,3 +16,8 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 @app.get("/me")
 def me(user=Depends(get_current_user)):
     return {"email": user}
+
+@app.get("/")
+async def root():     
+      return {"message":"Welcome to Fynd"}
+    
