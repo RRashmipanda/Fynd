@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.database import db
-from app.routes.auth import get_current_user
+from app.dependencies import get_current_user
 from bson import ObjectId
 
 router = APIRouter(prefix="/admin", tags=["Admin"])

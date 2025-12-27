@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.database import db
 from app.schemas.task import TaskCreate
 from app.core.security import is_admin
-from app.routes.auth import get_current_user
+from app.dependencies import get_current_user
+
 from bson import ObjectId
 
 

@@ -15,7 +15,6 @@ from fastapi.security import OAuth2PasswordBearer
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 @router.post("/register")
@@ -71,23 +70,3 @@ async def logout(refresh_token: str):
     return {"message": "Logged out"}
 
 
-
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    try:
-        payload = jwt.decode(
-            token,
-            settings.SECRET_KEY,
-            algorithms=[settings.ALGORITHM]
-        )
-        email = payload.get("sub")
-        if not email:
-            raise HTTPException(status_code=401, detail="Invalid token")
-
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
-
-    user = await db.users.find_one({"email": email})
-    if not user:
-        raise HTTPException(status_code=401, detail="User not found")
-
-    return user
