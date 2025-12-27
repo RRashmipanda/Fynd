@@ -5,6 +5,7 @@ class TaskCreate(BaseModel):
     title: str
     description: Optional[str] = None
 
+
 class TaskOut(BaseModel):
     id: str
     title: str
